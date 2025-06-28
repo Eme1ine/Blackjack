@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include "Person/Bank.hpp"
 
 #include <iostream>
 #include <vector>
@@ -10,6 +9,6 @@ using namespace std;
 int main()
 {
     cout << "Hello World" << endl;
-    Game();
-    Bank();
+    Game game = Game();
+    game.Start_Game();
 }

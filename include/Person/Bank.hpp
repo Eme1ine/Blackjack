@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Person/Person.hpp"
 class Bank : public Person
 {

@@ -1,3 +1,5 @@
+#pragma once
+
 class Person
 {
 private:
@@ -8,4 +10,9 @@ private:
 public:
     Person(/* args */);
     ~Person();
+
+    void SetCard1(int numero);
+    int GetCard1();
+    void SetCard2(int numero);
+    int GetCard2();
 };

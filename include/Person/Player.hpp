@@ -1,4 +1,8 @@
-class Player
+#pragma once
+
+#include "Person/Person.hpp"
+
+class Player : public Person
 {
 private:
     /* data */
