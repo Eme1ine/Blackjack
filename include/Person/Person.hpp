@@ -1,18 +1,25 @@
 #pragma once
 
+#include <vector>
+#include <iostream>
+#include "Card.hpp"
+
+#define MAX_SIZE_DECK 6
+
 class Person
 {
 private:
     /* data */
-    int card1;
-    int card2;
+    int number_cards;
+    std::vector<Card *> cards;
 
 public:
     Person(/* args */);
     ~Person();
 
-    void SetCard1(int numero);
-    int GetCard1();
-    void SetCard2(int numero);
-    int GetCard2();
+    // Friend function for << overloading
+    friend std::ostream &operator<<(std::ostream &os, const Person &p);
+
+    void Add_Card(Card *card);
+    int Get_Number_Cards();
 };

@@ -7,8 +7,6 @@ using namespace std;
 Game::Game(/* args */)
 {
     cout << "Game Creation" << endl;
-    bank = new Bank();
-    player = new Player();
     state = GameState::Init;
     Display_Game();
 }
@@ -50,8 +48,8 @@ void Game::Display_Game()
 {
     cout << endl;
     cout << "Game State " << state << endl;
-    cout << "Card Bank" << " " << bank->GetCard1() << " " << bank->GetCard2() << " " << endl;
-    cout << "Card Player" << " " << player->GetCard1() << " " << player->GetCard2() << " " << endl;
+    cout << "Card Bank" << " " << bank << " " << endl;
+    cout << "Card Player" << " " << player << " " << endl;
     cout << endl;
 }
 
@@ -78,6 +76,10 @@ void Game::Next_Step()
 
 void Game::State_Init()
 {
+    bank.Add_Card(deck.Get_Random_Available_Card());
+
+    player.Add_Card(deck.Get_Random_Available_Card());
+    player.Add_Card(deck.Get_Random_Available_Card());
 }
 void Game::State_PlayerTurn()
 {

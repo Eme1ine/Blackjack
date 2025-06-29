@@ -2,6 +2,7 @@
 
 #include "Person/Bank.hpp"
 #include "Person/Player.hpp"
+#include "DeckCards.hpp"
 
 enum GameState
 {
@@ -15,9 +16,10 @@ class Game
 {
 private:
     /* data */
-    Bank *bank;
-    Player *player;
+    Bank bank;
+    Player player;
     GameState state;
+    DeckCards deck;
 
 public:
     Game(/* args */);

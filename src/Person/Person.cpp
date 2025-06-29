@@ -3,11 +3,9 @@
 #include <iostream>
 
 using namespace std;
-Person::Person(/* args */)
+Person::Person() : number_cards(0), cards(6)
 {
     cout << "Person create" << endl;
-    card1 = 0;
-    card2 = 0;
 }
 
 Person::~Person()
@@ -15,21 +13,37 @@ Person::~Person()
     cout << "Person destroy" << endl;
 }
 
-void Person::SetCard1(int numero)
+std::ostream &operator<<(std::ostream &os, const Person &p)
 {
-    card1 = numero;
-}
-int Person::GetCard1()
-{
-    return card1;
+
+    int n = p.number_cards;
+    os << "\n Person has " << n << " cards :";
+    os << "\n";
+    for (size_t i = 0; i < n; i++)
+    {
+        Number number = p.cards.at(i)->Get_Number();
+        Color color = p.cards.at(i)->Get_Color();
+        os << NumberNames[number] << ColorNames[color] << " ";
+    }
+
+    return os;
 }
 
-void Person::SetCard2(int numero)
+void Person::Add_Card(Card *card)
 {
-    card2 = numero;
+    if (number_cards == MAX_SIZE_DECK)
+    {
+        cout << "ca va pas du tout la deck trop grand" << endl;
+        // do exception
+    }
+    else
+    {
+        cards[number_cards] = card;
+        number_cards += 1;
+        // cout << number_cards << " " << cards.at(number_cards - 1) << "c'est ajoute" << endl;
+    }
 }
-
-int Person::GetCard2()
+int Person::Get_Number_Cards()
 {
-    return card2;
+    return number_cards;
 }
