@@ -10,7 +10,6 @@ class Person
 {
 private:
     /* data */
-    int number_cards;
     std::vector<Card *> cards;
 
 public:
@@ -21,5 +20,7 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Person &p);
 
     void Add_Card(Card *card);
-    int Get_Number_Cards();
+    void EmptyCards();
+    int Get_Number_Cards() const;
+    int Get_Score() const;
 };

@@ -3,7 +3,7 @@
 #include <iostream>
 
 using namespace std;
-Person::Person() : number_cards(0), cards(6)
+Person::Person() : cards(0)
 {
     cout << "Person create" << endl;
 }
@@ -16,8 +16,8 @@ Person::~Person()
 std::ostream &operator<<(std::ostream &os, const Person &p)
 {
 
-    int n = p.number_cards;
-    os << "\n Person has " << n << " cards :";
+    int n = p.Get_Number_Cards();
+    os << "has " << p.Get_Score() << " points with " << n << " cards :";
     os << "\n";
     for (size_t i = 0; i < n; i++)
     {
@@ -31,19 +31,25 @@ std::ostream &operator<<(std::ostream &os, const Person &p)
 
 void Person::Add_Card(Card *card)
 {
-    if (number_cards == MAX_SIZE_DECK)
-    {
-        cout << "ca va pas du tout la deck trop grand" << endl;
-        // do exception
-    }
-    else
-    {
-        cards[number_cards] = card;
-        number_cards += 1;
-        // cout << number_cards << " " << cards.at(number_cards - 1) << "c'est ajoute" << endl;
-    }
+    cards.push_back(card);
 }
-int Person::Get_Number_Cards()
+
+int Person::Get_Number_Cards() const
 {
-    return number_cards;
+    return cards.size();
+}
+
+int Person::Get_Score() const
+{
+    int sum = 0;
+    for (int i = 0; i < Get_Number_Cards(); i++)
+    {
+        sum += cards[i]->Get_Number();
+    }
+    return sum;
+}
+
+void Person::EmptyCards()
+{
+    cards.clear();
 }

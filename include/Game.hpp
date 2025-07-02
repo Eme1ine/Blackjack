@@ -12,6 +12,8 @@ enum GameState
     Finish,
 };
 
+constexpr const char *StateNames[] = {"Init", "PlayerTurn", "BankTurn", "Finish"};
+
 class Game
 {
 private:
@@ -35,4 +37,6 @@ public:
     void State_PlayerTurn();
     void State_BankTurn();
     bool State_Finish();
+
+    void Display_Result();
 };
