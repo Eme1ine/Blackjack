@@ -41,15 +41,17 @@ private:
 
 public:
     Card();
+    Card(const Card &card);
     ~Card();
 
     void Set_Color(Color color);
     void Set_Number(Number number);
     void Set_Taken(bool taken);
 
-    Color Get_Color();
-    Number Get_Number();
-    bool is_Available();
+    Color Get_Color() const;
+    Number Get_Number() const;
+    int Get_Value() const;
+    bool is_Available() const;
 
     std::string Get_Color_string() const;
     std::string Get_Number_string() const;

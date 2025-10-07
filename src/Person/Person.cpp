@@ -1,6 +1,7 @@
 #include "Person/Person.hpp"
 
 #include <iostream>
+#include <memory>
 
 using namespace std;
 Person::Person() : cards(0)
@@ -19,17 +20,17 @@ std::ostream &operator<<(std::ostream &os, const Person &p)
     int n = p.Get_Number_Cards();
     os << "has " << p.Get_Score() << " points with " << n << " cards :";
     os << "\n";
-    for (size_t i = 0; i < n; i++)
+    for (shared_ptr<Card> c : p.cards)
     {
-        Number number = p.cards.at(i)->Get_Number();
-        Color color = p.cards.at(i)->Get_Color();
+        Number number = c->Get_Number();
+        Color color = c->Get_Color();
         os << NumberNames[number] << ColorNames[color] << " ";
     }
 
     return os;
 }
 
-void Person::Add_Card(Card *card)
+void Person::Add_Card(shared_ptr<Card> card)
 {
     cards.push_back(card);
 }
@@ -42,9 +43,19 @@ int Person::Get_Number_Cards() const
 int Person::Get_Score() const
 {
     int sum = 0;
-    for (int i = 0; i < Get_Number_Cards(); i++)
+    int nb_ace = 0;
+    for (shared_ptr<Card> c : cards)
     {
-        sum += cards[i]->Get_Number();
+        sum += c->Get_Value();
+        if (c->Get_Number() == 1)
+        {
+            ++nb_ace;
+        }
+    }
+    while (nb_ace > 0 and sum > 21)
+    {
+        sum -= 10; // Value of ace go from 11 to 1
+        --nb_ace;
     }
     return sum;
 }

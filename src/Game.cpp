@@ -46,7 +46,7 @@ void Game::Start_Game()
     }
 }
 
-void Game::Display_Game()
+void Game::Display_Game() const
 {
     cout << endl;
     cout << "Game State " << StateNames[state] << endl;
@@ -57,7 +57,7 @@ void Game::Display_Game()
 
 void Game::Next_Step()
 {
-    if (state != Finish and player.Get_Score() >= 21)
+    if (state != Finish and player.Get_Score() > 21)
     {
         state = Finish;
     }
@@ -124,34 +124,37 @@ void Game::State_BankTurn()
         bank.Add_Card(deck.Get_Random_Available_Card());
     }
 }
-bool Game::State_Finish()
+bool Game::State_Finish() const
 {
     char reponse;
     Display_Result();
     cout << "Do you want to play again (y/n)" << endl;
     cin >> reponse;
-    if (reponse == 'y')
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (reponse == 'y');
 }
 
-void Game::Display_Result()
+void Game::Display_Result() const
 {
     int score_bank = bank.Get_Score();
     int score_player = player.Get_Score();
+    if (score_bank == 21 or score_player == 21)
+    {
+        cout << "BLACKJACK" << endl;
+    }
+
     if (score_player > 21)
     {
-        cout << "Score above 21" << endl;
+        cout << "BUSTED" << endl;
         cout << "YOU LOOOOSE" << endl;
+    }
+    else if (score_bank > 21)
+    {
+        cout << "Bank busteeed" << endl;
+        cout << " YOU WIN CONGRATS ! " << endl;
     }
     else if (score_bank > score_player)
     {
-        cout << "Score above 21" << endl;
+        cout << "Score bank above" << endl;
         cout << "YOU LOOOOSE" << endl;
     }
     else

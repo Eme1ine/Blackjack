@@ -27,7 +27,7 @@ public:
     Game(/* args */);
     ~Game();
 
-    void Display_Game();
+    void Display_Game() const;
 
     void Start_Game();
 
@@ -36,7 +36,7 @@ public:
     void State_Init();
     void State_PlayerTurn();
     void State_BankTurn();
-    bool State_Finish();
+    bool State_Finish() const;
 
-    void Display_Result();
+    void Display_Result() const;
 };

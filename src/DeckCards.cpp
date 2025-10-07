@@ -1,16 +1,18 @@
 #include "DeckCards.hpp"
 #include <random>
+#include <memory>
 #include <iostream>
 using namespace std;
-DeckCards::DeckCards(/* args */) : deck_cards(56)
+DeckCards::DeckCards(/* args */)
 {
     for (int color = Spade; color < 4; color++)
     {
         for (int number = One; number < 14; number++)
         {
-            Card &card = deck_cards[color * 14 + number];
-            card.Set_Color(Color(color));
-            card.Set_Number(Number(number));
+            shared_ptr<Card> card = make_shared<Card>();
+            card->Set_Color(Color(color));
+            card->Set_Number(Number(number));
+            deck_cards.push_back(card);
         }
     }
 }
@@ -19,16 +21,16 @@ DeckCards::~DeckCards()
 {
 }
 
-Card *DeckCards::Get_Random_Available_Card()
+shared_ptr<Card> DeckCards::Get_Random_Available_Card()
 {
     // Filtrer les cartes disponibles
-    vector<Card *> available;
+    vector<shared_ptr<Card>> available;
 
-    for (Card &c : deck_cards)
+    for (shared_ptr<Card> c : deck_cards)
     {
-        if (c.is_Available())
+        if (c->is_Available())
         {
-            available.push_back(&c);
+            available.push_back(c);
         }
     }
 
@@ -42,7 +44,7 @@ Card *DeckCards::Get_Random_Available_Card()
     mt19937 gen(rd());
     uniform_int_distribution<> dist(0, available.size() - 1);
 
-    Card *selected = available[dist(gen)];
+    shared_ptr<Card> selected = available[dist(gen)];
     selected->Set_Taken(true);
     return selected;
 }
