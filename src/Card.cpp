@@ -4,12 +4,12 @@
 
 using namespace std;
 
-Card::Card() : color(Spade), number(One), taken(false)
+Card::Card() : color(Spade), number(One)
 {
     cout << "Creation Card" << endl;
 }
 
-Card::Card(const Card &card) : color(card.color), number(card.number), taken(card.taken)
+Card::Card(const Card &card) : color(card.color), number(card.number)
 {
     cout << "Copie Card" << endl;
 }
@@ -52,25 +52,16 @@ int Card::Get_Value() const
     return value;
 }
 
-string Card::Get_Color_string() const
+string_view Card::Get_Color_string() const
 {
     return ColorNames[color];
 }
 
-string Card::Get_Number_string() const
+string_view Card::Get_Number_string() const
 {
     return NumberNames[number];
 }
 
-bool Card::is_Available() const
-{
-    return !taken;
-}
-
-void Card::Set_Taken(bool taken)
-{
-    this->taken = taken;
-}
 std::ostream &operator<<(std::ostream &os, const Card &c)
 {
 

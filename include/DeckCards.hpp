@@ -12,5 +12,5 @@ public:
     DeckCards(/* args */);
     ~DeckCards();
 
-    std::shared_ptr<Card> Get_Random_Available_Card();
+    std::shared_ptr<Card> Get_Random_Card();
 };

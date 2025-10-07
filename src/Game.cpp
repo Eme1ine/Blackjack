@@ -40,8 +40,11 @@ void Game::Start_Game()
             break;
         }
         Display_Game();
-        cout << "Press Enter to continue" << endl;
-        cin.get();
+        if (state != Init)
+        {
+            cout << "Press Enter to continue" << endl;
+            cin.get();
+        }
         Next_Step();
     }
 }
@@ -86,11 +89,11 @@ void Game::Next_Step()
 void Game::State_Init()
 {
     bank.EmptyCards();
-    bank.Add_Card(deck.Get_Random_Available_Card());
+    bank.Add_Card(deck.Get_Random_Card());
 
     player.EmptyCards();
-    player.Add_Card(deck.Get_Random_Available_Card());
-    player.Add_Card(deck.Get_Random_Available_Card());
+    player.Add_Card(deck.Get_Random_Card());
+    player.Add_Card(deck.Get_Random_Card());
 }
 void Game::State_PlayerTurn()
 {
@@ -99,11 +102,12 @@ void Game::State_PlayerTurn()
     while (continue_player_turn)
     {
         cout << "Hit or stand ?" << endl;
+        // todo Option split a ajouter
         cout << "Press h to hit and s to stand" << endl;
         cin >> c;
         if (c == 'h')
         {
-            player.Add_Card(deck.Get_Random_Available_Card());
+            player.Add_Card(deck.Get_Random_Card());
             Display_Game();
         }
         else
@@ -121,7 +125,7 @@ void Game::State_BankTurn()
 {
     while (bank.Get_Score() < 17)
     {
-        bank.Add_Card(deck.Get_Random_Available_Card());
+        bank.Add_Card(deck.Get_Random_Card());
     }
 }
 bool Game::State_Finish() const
