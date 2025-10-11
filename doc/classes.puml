@@ -1,0 +1,157 @@
+@startuml
+
+
+
+
+
+/' Objects '/
+
+class Bank {
+	+Bank()
+	+~Bank()
+}
+
+
+class Card {
+	+Card()
+	+Card(const Card& card)
+	+~Card()
+	-color : Color
+	-number : Number
+	+Get_Color() : int {query}
+	+Get_Number() : int {query}
+	+Get_Value() : int {query}
+	+operator<<(std::ostream& os, const Card& c) : std :: ostream&
+	+Get_Color_string() : std::string_view {query}
+	+Get_Number_string() : std::string_view {query}
+	+Set_Color(Color color) : void
+	+Set_Number(Number number) : void
+}
+
+
+class DeckCards {
+	+DeckCards()
+	+~DeckCards()
+	+Get_Random_Card() : std::shared_ptr<Card>
+	-deck_cards : std::vector<std::shared_ptr<Card>>
+}
+
+
+class Game {
+	+Game()
+	+~Game()
+	-bank : Bank
+	-deck : DeckCards
+	-state : GameState
+	-player : Player
+	+State_Finish() : bool {query}
+	+Display_Game() : void {query}
+	+Display_Result() : void {query}
+	+Next_Step() : void
+	+Start_Game() : void
+	+State_BankTurn() : void
+	+State_Init() : void
+	+State_PlayerTurn() : void
+}
+
+
+class Person {
+	+Person()
+	+~Person()
+	+Get_Number_Cards() : int {query}
+	+Get_Score() : int {query}
+	+operator<<(std::ostream& os, const Person& p) : std :: ostream&
+	-cards : std::vector<std::shared_ptr<Card>>
+	+Add_Card(const std::shared_ptr<Card>) : void
+	+EmptyCards() : void
+}
+
+
+class Player {
+	+Player()
+	+~Player()
+}
+
+
+enum Color {
+	Club
+	Diamond
+	Heart
+	Spade
+}
+
+
+enum GameState {
+	BankTurn
+	Finish
+	Init
+	PlayerTurn
+}
+
+
+enum Number {
+	Eight
+	Five
+	Four
+	Jack
+	King
+	Nine
+	One
+	Queen
+	Seven
+	Six
+	Ten
+	Three
+	Two
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+Person <|-- Bank
+
+
+Person <|-- Player
+
+
+
+
+
+/' Aggregation relationships '/
+
+Card *-- Color
+
+
+Card *-- Number
+
+
+DeckCards o-- Card
+
+
+Game *-- Bank
+
+
+Game *-- DeckCards
+
+
+Game *-- GameState
+
+
+Game *-- Player
+
+
+Person o-- Card
+
+
+
+
+
+
+/' Nested objects '/
+
+
+
+@enduml

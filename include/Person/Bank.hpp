@@ -8,6 +8,4 @@ private:
 public:
     Bank(/* args */);
     ~Bank();
-    // Friend function for << overloading
-    friend std::ostream &operator<<(std::ostream &os, const Person &p);
 };
