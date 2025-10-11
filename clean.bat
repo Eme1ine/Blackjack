@@ -1,0 +1,1 @@
+rmdir /s /q CMakeFiles MyQtApp_autogen CMakeCache.txt build 2>nul

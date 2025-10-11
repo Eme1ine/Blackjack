@@ -24,4 +24,5 @@ public:
     void EmptyCards();
     int Get_Number_Cards() const;
     int Get_Score() const;
+    std::vector<std::shared_ptr<Card>> Get_Cards() const { return cards; };
 };

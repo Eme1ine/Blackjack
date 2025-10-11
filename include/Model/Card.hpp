@@ -50,8 +50,8 @@ public:
     Number Get_Number() const;
     int Get_Value() const;
 
-    std::string_view Get_Color_string() const;
-    std::string_view Get_Number_string() const;
+    std::string Get_Color_string() const;
+    std::string Get_Number_string() const;
 
     // Friend function for << overloading
     friend std::ostream &operator<<(std::ostream &os, const Card &c);

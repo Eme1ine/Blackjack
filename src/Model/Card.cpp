@@ -52,14 +52,14 @@ int Card::Get_Value() const
     return value;
 }
 
-string_view Card::Get_Color_string() const
+string Card::Get_Color_string() const
 {
-    return ColorNames[color];
+    return string(ColorNames[color]);
 }
 
-string_view Card::Get_Number_string() const
+string Card::Get_Number_string() const
 {
-    return NumberNames[number];
+    return string(NumberNames[number]);
 }
 
 std::ostream &operator<<(std::ostream &os, const Card &c)
