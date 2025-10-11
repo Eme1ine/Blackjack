@@ -4,10 +4,16 @@ TARGET = build/main.exe
 # Chemins
 SRCDIR = src
 INCDIR = include
-PERSONDIR = src/Person
+CONTROLLERDIR = src/Controller
+MODELDIR = src/Model
+PERSONDIR = src/Model/Person
 
 # Tous les fichiers .cpp
-SOURCES = $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(PERSONDIR)/*.cpp)
+SOURCES := \
+  $(wildcard $(SRCDIR)/*.cpp) \
+  $(wildcard $(MODELDIR)/*.cpp) \
+  $(wildcard $(PERSONDIR)/*.cpp) \
+  $(wildcard $(CONTROLLERDIR)/*.cpp)
 
 # Options du compilateur
 CXX = g++

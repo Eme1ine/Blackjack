@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Person/Person.hpp"
+#include "Model/Person/Person.hpp"
 
 class Player : public Person
 {

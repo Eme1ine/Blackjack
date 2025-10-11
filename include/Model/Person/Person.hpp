@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-#include "Card.hpp"
+#include "Model/Card.hpp"
 
 #define MAX_SIZE_DECK 6
 

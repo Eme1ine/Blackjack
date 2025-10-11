@@ -1,4 +1,4 @@
-#include "Person/Player.hpp"
+#include "Model/Person/Player.hpp"
 
 #include <iostream>
 

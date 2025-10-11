@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Person/Bank.hpp"
-#include "Person/Player.hpp"
-#include "DeckCards.hpp"
+#include "Model/Person/Bank.hpp"
+#include "Model/Person/Player.hpp"
+#include "Model/DeckCards.hpp"
 
 enum GameState
 {

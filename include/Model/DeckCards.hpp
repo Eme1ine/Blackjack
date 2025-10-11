@@ -1,6 +1,6 @@
 #include <vector>
 #include <memory>
-#include "Card.hpp"
+#include "Model/Card.hpp"
 
 class DeckCards
 {

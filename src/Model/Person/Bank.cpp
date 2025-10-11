@@ -1,4 +1,4 @@
-#include "Person/Bank.hpp"
+#include "Model/Person/Bank.hpp"
 
 #include <iostream>
 

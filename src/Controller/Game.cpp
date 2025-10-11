@@ -1,5 +1,7 @@
-#include "Game.hpp"
-#include "Person/Person.hpp"
+#include "Controller/Game.hpp"
+#include "Model/Person/Person.hpp"
+#include "Model/Person/Player.hpp"
+#include "Model/Person/Bank.hpp"
 #include <iostream>
 
 using namespace std;

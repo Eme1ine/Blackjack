@@ -1,4 +1,4 @@
-#include "Card.hpp"
+#include "Model/Card.hpp"
 
 #include <iostream>
 
