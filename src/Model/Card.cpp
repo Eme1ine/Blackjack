@@ -62,6 +62,12 @@ string Card::Get_Number_string() const
     return string(NumberNames[number]);
 }
 
+string Card::Get_Name() const
+{
+    string s = Get_Number_string() + "_of_" + Get_Color_string();
+    return s;
+}
+
 std::ostream &operator<<(std::ostream &os, const Card &c)
 {
 

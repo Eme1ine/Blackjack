@@ -2,6 +2,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <memory>
+#include <iostream>
 #include <QVBoxLayout>
 #include "Model/Person/Bank.hpp"
 #include "Model/Person/Player.hpp"
@@ -19,6 +20,7 @@ public:
     ~View();
     void updateBank(const Bank &bank);
     void updatePlayer(const Player &player);
+    QPixmap renderSvg(const std::string name, const QSize &outSize);
 
 signals:
     void enterPressed(); // signal envoyé quand on appuie sur Entrée

@@ -6,6 +6,10 @@
 #include <QLabel>
 #include <QKeyEvent>
 
+#include <QSvgRenderer>
+#include <QPixmap>
+#include <QPainter>
+
 #include <iostream>
 
 using namespace std;
@@ -46,9 +50,11 @@ void View::updateBank(const Bank &bank)
     // 2) ajouter les nouvelles cartes
     for (auto card_ptr : bank.Get_Cards())
     {
-        QLabel *cardLabel = new QLabel(QString::fromStdString(string(card_ptr->Get_Number_string())));
-        cardLabel->setAlignment(Qt::AlignCenter);
-        cardLabel->setStyleSheet("border: 1px solid gray; padding: 5px;");
+        QLabel *cardLabel = new QLabel();
+        // cardLabel->setAlignment(Qt::AlignCenter);
+        // cardLabel->setStyleSheet("border: 1px solid gray; padding: 5px;");
+        QPixmap cardpixel = renderSvg(card_ptr->Get_Name(), QSize(100, 200));
+        cardLabel->setPixmap(cardpixel);
         bank_cards->addWidget(cardLabel);
     }
 }
@@ -67,9 +73,11 @@ void View::updatePlayer(const Player &player)
     // 2) ajouter les nouvelles cartes
     for (auto card_ptr : player.Get_Cards())
     {
-        QLabel *cardLabel = new QLabel(QString::fromStdString(string(card_ptr->Get_Number_string())));
-        cardLabel->setAlignment(Qt::AlignCenter);
-        cardLabel->setStyleSheet("border: 1px solid gray; padding: 5px;");
+        QLabel *cardLabel = new QLabel();
+        // cardLabel->setAlignment(Qt::AlignCenter);
+        // cardLabel->setStyleSheet("border: 1px solid gray; padding: 5px;");
+        QPixmap cardpixel = renderSvg(card_ptr->Get_Name(), QSize(100, 200));
+        cardLabel->setPixmap(cardpixel);
         player_cards->addWidget(cardLabel);
     }
 }
@@ -88,4 +96,21 @@ void View::keyPressEvent(QKeyEvent *event)
     }
     else
         QWidget::keyPressEvent(event);
+}
+
+QPixmap View::renderSvg(const std::string name, const QSize &outSize)
+{
+    QSvgRenderer renderer(QString::fromStdString("img/" + name + ".svg"));
+    if (!renderer.isValid())
+        return {};
+
+    // 1) rendre l'image entière à la taille voulue
+    QImage full(outSize, QImage::Format_ARGB32_Premultiplied);
+    full.fill(Qt::transparent);
+    {
+        QPainter p(&full);
+        renderer.render(&p, QRectF(QPointF(0, 0), outSize));
+    }
+
+    return QPixmap::fromImage(full);
 }
