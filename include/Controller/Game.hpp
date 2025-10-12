@@ -7,14 +7,18 @@
 
 enum GameState
 {
+    InitBegin,
     Init,
+    InitFinished,
     PlayerTurn,
     PlayerTurnFinished,
+    BankTurnBegin,
     BankTurn,
+    BankTurnFinished,
     Finish,
 };
 
-constexpr const char *StateNames[] = {"Init", "PlayerTurn", "PlayerTurnFinished", "BankTurn", "Finish"};
+constexpr const char *StateNames[] = {"InitBegin", "Init", "InitFinished", "PlayerTurn", "PlayerTurnFinished", "BankTurnBegin", "BankTurn", "BankTurnFinished", "Finish"};
 
 class Game : public QObject
 {
@@ -47,4 +51,5 @@ public:
 public slots:
     void onEnterPressed();
     void onLetterPressed(char value);
+    void onTurnFinished();
 };

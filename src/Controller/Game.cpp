@@ -12,11 +12,12 @@ Game::Game()
 {
     cout << "Game Creation" << endl;
     view.show();
-    state = GameState::Init;
+    state = GameState::InitBegin;
     Display_Game();
 
     QObject::connect(&view, &View::enterPressed, this, onEnterPressed);
     QObject::connect(&view, &View::letterPressed, this, onLetterPressed);
+    QObject::connect(&view, &View::turnFinished, this, onTurnFinished);
 }
 
 Game::~Game()
@@ -29,7 +30,7 @@ void Game::Start_Game()
     bool continue_game = true;
     switch (state)
     {
-    case Init:
+    case InitBegin:
         /*Attribute random card*/
         State_Init();
         Display_Game();
@@ -40,7 +41,7 @@ void Game::Start_Game()
     case PlayerTurnFinished:
         Display_Game();
         break;
-    case BankTurn:
+    case BankTurnBegin:
         State_BankTurn();
         Display_Game();
         break;
@@ -72,17 +73,20 @@ void Game::Next_Step()
     {
         switch (state)
         {
-        case Init:
+        case InitFinished:
             state = PlayerTurn;
             break;
         case PlayerTurnFinished:
+            state = BankTurnBegin;
+            break;
+        case BankTurnBegin:
             state = BankTurn;
             break;
-        case BankTurn:
+        case BankTurnFinished:
             state = Finish;
             break;
         case Finish:
-            state = Init;
+            state = InitBegin;
             break;
         default:
             break;
@@ -92,6 +96,7 @@ void Game::Next_Step()
 
 void Game::State_Init()
 {
+    state = Init;
     bank.EmptyCards();
     player.EmptyCards();
 
@@ -193,5 +198,23 @@ void Game::onLetterPressed(char value)
     if (state == PlayerTurn)
     {
         State_PlayerTurn(value);
+    }
+}
+void Game::onTurnFinished()
+{
+    std::cout << "TurnFinished" << endl;
+    static int init_finished_count = 0;
+    if (state == BankTurn || state == BankTurnBegin)
+    {
+        state = BankTurnFinished;
+    }
+    else if (state == Init)
+    {
+        if (++init_finished_count == 2)
+        {
+
+            state = InitFinished;
+            init_finished_count = 0;
+        }
     }
 }

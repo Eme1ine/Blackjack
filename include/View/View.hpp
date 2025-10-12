@@ -6,9 +6,9 @@
 #include <QVBoxLayout>
 #include <QPainter>
 #include <QPaintEvent>
-#include <QParallelAnimationGroup>
 #include "Model/Person/Bank.hpp"
 #include "Model/Person/Player.hpp"
+#include "View/ServicesView.hpp"
 
 class View : public QWidget
 {
@@ -18,18 +18,18 @@ private:
     QHBoxLayout *player_cards;
     QVBoxLayout *mainLayout;
     QPixmap background;
+    ServicesView services;
 
 public:
     explicit View(QWidget *parent = nullptr);
     ~View();
     void updateBank(const Bank &bank);
     void updatePlayer(const Player &player);
-    void updatePerson(const Person &person, QHBoxLayout *layout_person);
-    QPixmap renderSvg(const std::string name, const QSize &outSize);
 
 signals:
     void enterPressed(); // signal envoye quand on appuie sur Entree
     void letterPressed(char value);
+    void turnFinished();
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
@@ -38,6 +38,4 @@ protected:
         QPainter painter(this);
         painter.drawPixmap(rect(), background); // scale to fill
     }
-    QParallelAnimationGroup *addCardFromRight(QHBoxLayout *targetLayout, const QPixmap &pix);
-    void dealBankSequential(QHBoxLayout *layout, const QVector<QPixmap> &pix, int idx);
 };
