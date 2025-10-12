@@ -23,7 +23,7 @@ DeckCards::~DeckCards()
 
 shared_ptr<Card> DeckCards::Get_Random_Card()
 {
-    // Choisir un index aléatoire
+    // Choisir un index aleatoire
     random_device rd;
     mt19937 gen(rd());
     uniform_int_distribution<> dist(0, deck_cards.size() - 1);

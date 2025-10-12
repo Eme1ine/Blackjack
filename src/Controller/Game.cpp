@@ -4,6 +4,7 @@
 #include "Model/Person/Bank.hpp"
 #include "View/View.hpp"
 #include <iostream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -92,9 +93,12 @@ void Game::Next_Step()
 void Game::State_Init()
 {
     bank.EmptyCards();
+    player.EmptyCards();
+
+    view.updateBank(bank);
+    view.updatePlayer(player);
     bank.Add_Card(deck.Get_Random_Card());
 
-    player.EmptyCards();
     player.Add_Card(deck.Get_Random_Card());
     player.Add_Card(deck.Get_Random_Card());
 
@@ -135,15 +139,14 @@ void Game::State_BankTurn()
     while (bank.Get_Score() < 17)
     {
         bank.Add_Card(deck.Get_Random_Card());
-        view.updateBank(bank);
     }
+    view.updateBank(bank);
 }
 bool Game::State_Finish() const
 {
     char reponse;
     Display_Result();
     cout << "Do you want to play again (y/n)" << endl;
-    // cin >> reponse;
     reponse = 'n';
     return (reponse == 'y');
 }

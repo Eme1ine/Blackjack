@@ -4,6 +4,9 @@
 #include <memory>
 #include <iostream>
 #include <QVBoxLayout>
+#include <QPainter>
+#include <QPaintEvent>
+#include <QParallelAnimationGroup>
 #include "Model/Person/Bank.hpp"
 #include "Model/Person/Player.hpp"
 
@@ -11,21 +14,30 @@ class View : public QWidget
 {
     Q_OBJECT
 private:
-    std::unique_ptr<QHBoxLayout> bank_cards;
-    std::unique_ptr<QHBoxLayout> player_cards;
-    std::unique_ptr<QVBoxLayout> layout;
+    QHBoxLayout *bank_cards;
+    QHBoxLayout *player_cards;
+    QVBoxLayout *mainLayout;
+    QPixmap background;
 
 public:
     explicit View(QWidget *parent = nullptr);
     ~View();
     void updateBank(const Bank &bank);
     void updatePlayer(const Player &player);
+    void updatePerson(const Person &person, QHBoxLayout *layout_person);
     QPixmap renderSvg(const std::string name, const QSize &outSize);
 
 signals:
-    void enterPressed(); // signal envoyé quand on appuie sur Entrée
+    void enterPressed(); // signal envoye quand on appuie sur Entree
     void letterPressed(char value);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
+    void paintEvent(QPaintEvent *) override
+    {
+        QPainter painter(this);
+        painter.drawPixmap(rect(), background); // scale to fill
+    }
+    QParallelAnimationGroup *addCardFromRight(QHBoxLayout *targetLayout, const QPixmap &pix);
+    void dealBankSequential(QHBoxLayout *layout, const QVector<QPixmap> &pix, int idx);
 };
