@@ -22,3 +22,49 @@ BlackjackButton:pressed {
             stop:0 #0C3A25, stop:1 #072515);
     border: 1px solid #E0C060;
 }
+
+/* --- Fond global du QMessageBox --- */
+QMessageBox {
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+            stop:0 #16603A, stop:1 #0A3C26);
+    border: 1px solid #FFD75A;
+    /* fine bordure dorée */
+    border-radius: 14px;
+    color: #FFF5E6;
+}
+
+/* --- Texte principal --- */
+QMessageBox QLabel {
+    color: #FFF5E6;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 8px;
+}
+
+
+/* --- Boutons --- */
+QMessageBox QPushButton {
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+            stop:0 #1C7546, stop:1 #115E36);
+    color: #FFF5E6;
+    border: 1px solid #FFD75A;
+    border-radius: 10px;
+    padding: 6px 18px;
+    font-weight: 600;
+    min-width: 90px;
+}
+
+/* --- Hover --- */
+QMessageBox QPushButton:hover {
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+            stop:0 #208852, stop:1 #147C44);
+    border: 1px solid #FFE680;
+}
+
+/* --- Pressé --- */
+QMessageBox QPushButton:pressed {
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+            stop:0 #0C3A25, stop:1 #072515);
+    border: 1px solid #E0C060;
+    color: #EEE3C8;
+}

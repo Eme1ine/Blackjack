@@ -154,7 +154,7 @@ void Game::State_BankTurn()
     }
     view.updateBank(bank);
 }
-bool Game::State_Finish() const
+bool Game::State_Finish()
 {
     char reponse;
     Display_Result();
@@ -163,10 +163,11 @@ bool Game::State_Finish() const
     return (reponse == 'y');
 }
 
-void Game::Display_Result() const
+void Game::Display_Result()
 {
     int score_bank = bank.Get_Score();
     int score_player = player.Get_Score();
+    bool youWin = false;
     if (score_bank == 21 or score_player == 21)
     {
         cout << "BLACKJACK" << endl;
@@ -181,6 +182,7 @@ void Game::Display_Result() const
     {
         cout << "Bank busteeed" << endl;
         cout << " YOU WIN CONGRATS ! " << endl;
+        youWin = true;
     }
     else if (score_bank > score_player)
     {
@@ -190,7 +192,9 @@ void Game::Display_Result() const
     else
     {
         cout << " YOU WIN CONGRATS ! " << endl;
+        youWin = true;
     }
+    view.popUpWinner(youWin);
 }
 
 void Game::onEnterPressed()

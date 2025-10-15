@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QKeyEvent>
 #include <QPushButton>
+#include <QMessageBox>
 #include "View/BlackJackButton.hpp"
 
 #include <memory>
@@ -73,7 +74,7 @@ View::View(QWidget *parent)
 
     gameLayout->addWidget(playerSection, 1);
 
-    setWindowTitle("MyWindow Example");
+    setWindowTitle("BlackJack");
     setFocusPolicy(Qt::StrongFocus);
 }
 
@@ -105,6 +106,18 @@ void View::updateState(const GameState state)
         buttonHit->setVisible(false);
         buttonStand->setVisible(false);
         buttonNext->setVisible(true);
+    }
+}
+
+void View::popUpWinner(bool youWin)
+{
+    if (youWin)
+    {
+        QMessageBox::information(this, "Blackjack", "🎉 YOU WIN!");
+    }
+    else
+    {
+        QMessageBox::information(this, "Blackjack", "LOOOOSER!");
     }
 }
 

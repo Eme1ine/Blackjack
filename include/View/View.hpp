@@ -34,6 +34,7 @@ public:
     void updateBank(const Bank &bank);
     void updatePlayer(const Player &player);
     void updateState(const GameState state);
+    void popUpWinner(bool youWin);
 
 signals:
     void enterPressed(); // signal envoye quand on appuie sur Entree

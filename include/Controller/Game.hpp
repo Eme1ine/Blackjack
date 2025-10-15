@@ -30,9 +30,9 @@ public:
     void State_Init();
     void State_PlayerTurn(const char c = ' ');
     void State_BankTurn();
-    bool State_Finish() const;
+    bool State_Finish();
 
-    void Display_Result() const;
+    void Display_Result();
 
 public slots:
     void onEnterPressed();
