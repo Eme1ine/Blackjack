@@ -8,11 +8,10 @@ set(CMAKE_AUTOMOC ON)   # génère moc_*.cpp automatiquement (Q_OBJECT)
 set(CMAKE_AUTORCC ON)   # si tu ajoutes des .qrc
 set(CMAKE_AUTOUIC ON)   # si tu ajoutes des .ui
 
-# ---- Trouve Qt6 (Widgets suffit ici)
+# ---- Trouve Qt6
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Svg)
 
-# ---- Regroupe tes sources
 set(SRC_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(INC_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/include")
 

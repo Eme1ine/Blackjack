@@ -110,34 +110,23 @@ QParallelAnimationGroup *ServicesView::addCardFromRight(QHBoxLayout *targetLayou
         // Copie de la pixmap
         const QPixmap px = card->pixmap();
         card->deleteLater();
-        cout<<"finished"<<endl;
 
         QWidget* parent = layout->parentWidget();
-        cout<<"finished"<<endl;
         if (!parent)
         {
             parent = window;
-            cout<<"aye"<<endl;
         }
-        cout<<"finished2"<<endl;
 
         auto* finalCard = new QLabel(parent);
-        cout<<"finished2"<<endl;
         finalCard->setPixmap(px);
-        cout<<"finished2"<<endl;
         finalCard->setStyleSheet("background: transparent;");
-        cout<<"finished2"<<endl;
 
         layout->addWidget(finalCard);
-        cout<<"finished2"<<endl;
         finalCard->show();
-        cout<<"finished2"<<endl;
         // supprimer les clones et re-afficher les originaux (toujours dans le layout)
         for (const auto& cl : clones) {
             if(cl.clone) delete cl.clone;
-             cout<<"finished3"<<endl;
             if(cl.original != nullptr) cl.original->setVisible(true);
-             cout<<"finished3"<<endl;
         } });
     return group;
 }
