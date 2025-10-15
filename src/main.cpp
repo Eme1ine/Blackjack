@@ -4,7 +4,9 @@
 #include <vector>
 #include <string>
 #include <QApplication>
-#include <QLabel>
+#include <QFile>
+#include <QLatin1String>
+#include <QString>
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -13,6 +15,12 @@ int main(int argc, char *argv[])
 
     // Demarrage de la vue QT
     QApplication app(argc, argv);
+    QFile styleFile("styles/blackjack.qss");
+    if (styleFile.open(QFile::ReadOnly))
+    {
+        QString style = QLatin1String(styleFile.readAll());
+        app.setStyleSheet(style);
+    }
 
     // Demarrage du jeu
     Game game = Game();

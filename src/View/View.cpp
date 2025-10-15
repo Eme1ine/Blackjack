@@ -3,6 +3,8 @@
 #include "Model/Person/Bank.hpp"
 #include <QVBoxLayout>
 #include <QKeyEvent>
+#include <QPushButton>
+#include "View/BlackJackButton.hpp"
 
 #include <memory>
 #include <iostream>
@@ -15,14 +17,42 @@ View::View(QWidget *parent)
       player_cards(),
       background("img/0_background.jpg")
 {
-    resize(500, 500);
-    mainLayout = new QVBoxLayout(this);
-    mainLayout->setContentsMargins(0, 0, 0, 0);
-    mainLayout->setSpacing(0);
-    setLayout(mainLayout);
+    resize(700, 500);
+    QHBoxLayout *bigLayout = new QHBoxLayout(this);
+    bigLayout->setContentsMargins(0, 0, 0, 0);
+    bigLayout->setSpacing(0);
+    setLayout(bigLayout);
+
+    // ----- Section gauche (jeux) -----
+    QWidget *gameSection = new QWidget(this);
+    gameSection->setFixedSize(500, 500);
+    bigLayout->addWidget(gameSection);
+
+    // ----- Section droite (bouton) -----
+    QWidget *boutonSection = new QWidget(this);
+    boutonSection->setFixedSize(200, 500);
+    bigLayout->addWidget(boutonSection);
+
+    // ----- Section droite remplissage -----
+    QVBoxLayout *boutonLayout = new QVBoxLayout(boutonSection);
+    boutonLayout->setContentsMargins(10, 10, 10, 10);
+    boutonLayout->setSpacing(5);
+    boutonLayout->setAlignment(Qt::AlignBottom | Qt::AlignHCenter);
+
+    buttonHit = new BlackjackButton("Hit", boutonSection);
+    boutonLayout->addWidget(buttonHit);
+    buttonStand = new BlackjackButton("Stand", boutonSection);
+    boutonLayout->addWidget(buttonStand);
+    buttonNext = new BlackjackButton("Next", boutonSection);
+    boutonLayout->addWidget(buttonNext);
+
+    // ----- Section gauche remplissage -----
+    gameLayout = new QVBoxLayout(gameSection);
+    gameLayout->setContentsMargins(0, 0, 0, 0);
+    gameLayout->setSpacing(0);
 
     // ----- Section du haut (banque) -----
-    QWidget *bankSection = new QWidget(this);
+    QWidget *bankSection = new QWidget(gameSection);
     bankSection->setMinimumHeight(200);
     bankSection->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
@@ -30,10 +60,10 @@ View::View(QWidget *parent)
     bank_cards->setSpacing(8);
     bank_cards->setAlignment(Qt::AlignCenter);
 
-    mainLayout->addWidget(bankSection, 1);
+    gameLayout->addWidget(bankSection, 1);
 
     // ----- Section du bas (joueur) -----
-    QWidget *playerSection = new QWidget(this);
+    QWidget *playerSection = new QWidget(gameSection);
     playerSection->setMinimumHeight(200);
     playerSection->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
@@ -41,7 +71,7 @@ View::View(QWidget *parent)
     player_cards->setSpacing(8);
     player_cards->setAlignment(Qt::AlignCenter);
 
-    mainLayout->addWidget(playerSection, 1);
+    gameLayout->addWidget(playerSection, 1);
 
     setWindowTitle("MyWindow Example");
     setFocusPolicy(Qt::StrongFocus);
@@ -60,6 +90,22 @@ void View::updateBank(const Bank &bank)
 void View::updatePlayer(const Player &player)
 {
     services.updatePerson(player, player_cards, this);
+}
+
+void View::updateState(const GameState state)
+{
+    if (state == PlayerTurn)
+    {
+        buttonNext->setVisible(false);
+        buttonHit->setVisible(true);
+        buttonStand->setVisible(true);
+    }
+    else
+    {
+        buttonHit->setVisible(false);
+        buttonStand->setVisible(false);
+        buttonNext->setVisible(true);
+    }
 }
 
 void View::keyPressEvent(QKeyEvent *event)

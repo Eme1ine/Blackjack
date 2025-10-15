@@ -13,11 +13,15 @@ Game::Game()
     cout << "Game Creation" << endl;
     view.show();
     state = GameState::InitBegin;
+    view.updateState(state);
     Display_Game();
 
     QObject::connect(&view, &View::enterPressed, this, onEnterPressed);
     QObject::connect(&view, &View::letterPressed, this, onLetterPressed);
     QObject::connect(&view, &View::turnFinished, this, onTurnFinished);
+    QObject::connect(view.buttonNext, &QPushButton::released, this, onEnterPressed);
+    QObject::connect(view.buttonHit, &QPushButton::released, this, onLetterPressedH);
+    QObject::connect(view.buttonStand, &QPushButton::released, this, onLetterPressedS);
 }
 
 Game::~Game()
@@ -92,6 +96,7 @@ void Game::Next_Step()
             break;
         }
     }
+    view.updateState(state);
 }
 
 void Game::State_Init()
@@ -115,6 +120,7 @@ void Game::State_PlayerTurn(const char c)
     if (c == 's')
     {
         state = PlayerTurnFinished;
+        view.updateState(state);
         Start_Game();
     }
     else
@@ -127,6 +133,7 @@ void Game::State_PlayerTurn(const char c)
         if (player.Get_Score() >= 21)
         {
             state = PlayerTurnFinished;
+            view.updateState(state);
             Start_Game();
         }
         else
@@ -192,6 +199,15 @@ void Game::onEnterPressed()
     Start_Game();
 }
 
+void Game::onLetterPressedS()
+{
+    onLetterPressed('s');
+}
+
+void Game::onLetterPressedH()
+{
+    onLetterPressed('h');
+}
 void Game::onLetterPressed(char value)
 {
     std::cout << "letter pressed -> " << value << endl;
@@ -207,6 +223,7 @@ void Game::onTurnFinished()
     if (state == BankTurn || state == BankTurnBegin)
     {
         state = BankTurnFinished;
+        Start_Game();
     }
     else if (state == Init)
     {
@@ -214,6 +231,7 @@ void Game::onTurnFinished()
         {
 
             state = InitFinished;
+            Start_Game();
             init_finished_count = 0;
         }
     }

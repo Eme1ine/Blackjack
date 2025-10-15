@@ -1,24 +1,10 @@
 #pragma once
 
+#include "Controller/GameState.hpp"
 #include "Model/Person/Bank.hpp"
 #include "Model/Person/Player.hpp"
 #include "Model/DeckCards.hpp"
 #include "View/View.hpp"
-
-enum GameState
-{
-    InitBegin,
-    Init,
-    InitFinished,
-    PlayerTurn,
-    PlayerTurnFinished,
-    BankTurnBegin,
-    BankTurn,
-    BankTurnFinished,
-    Finish,
-};
-
-constexpr const char *StateNames[] = {"InitBegin", "Init", "InitFinished", "PlayerTurn", "PlayerTurnFinished", "BankTurnBegin", "BankTurn", "BankTurnFinished", "Finish"};
 
 class Game : public QObject
 {
@@ -51,5 +37,7 @@ public:
 public slots:
     void onEnterPressed();
     void onLetterPressed(char value);
+    void onLetterPressedH();
+    void onLetterPressedS();
     void onTurnFinished();
 };
