@@ -14,7 +14,6 @@ public:
         : QPushButton(text, parent)
     {
         setCursor(Qt::PointingHandCursor);
-        // setMinimumSize(140, 44);
         setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     }
 };

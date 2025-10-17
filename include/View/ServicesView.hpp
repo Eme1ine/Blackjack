@@ -20,5 +20,5 @@ class ServicesView
     void dealBankSequential(QHBoxLayout *layout, const QVector<QPixmap> &pix, int idx, View *window);
 
 public:
-    void updatePerson(const Person &person, QHBoxLayout *layout_person, View *window);
+    void updatePerson(std::vector<std::shared_ptr<Card>> cards, QHBoxLayout *layout_person, View *window);
 };

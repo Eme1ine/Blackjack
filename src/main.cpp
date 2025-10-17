@@ -1,4 +1,4 @@
-#include "Controller/Game.hpp"
+#include "Controller/SignalController.hpp"
 
 #include <iostream>
 #include <vector>
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     }
 
     // Demarrage du jeu
-    Game game = Game();
-    //  game.Start_Game();
+    SignalController signalController = SignalController();
+
     return app.exec();
 }

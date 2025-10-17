@@ -11,6 +11,7 @@
 #include "Controller/GameState.hpp"
 #include "Model/Person/Bank.hpp"
 #include "Model/Person/Player.hpp"
+#include "View/BlackJackButton.hpp"
 #include "View/ServicesView.hpp"
 
 class View : public QWidget
@@ -19,20 +20,19 @@ class View : public QWidget
 private:
     QHBoxLayout *bank_cards;
     QHBoxLayout *player_cards;
-    QVBoxLayout *gameLayout;
     QPixmap background;
     ServicesView services;
 
 public:
-    QPushButton *buttonNext;
-    QPushButton *buttonHit;
-    QPushButton *buttonStand;
+    BlackjackButton *buttonNext;
+    BlackjackButton *buttonHit;
+    BlackjackButton *buttonStand;
 
 public:
     explicit View(QWidget *parent = nullptr);
     ~View();
-    void updateBank(const Bank &bank);
-    void updatePlayer(const Player &player);
+    void updateBank(std::vector<std::shared_ptr<Card>> cards);
+    void updatePlayer(std::vector<std::shared_ptr<Card>> cards);
     void updateState(const GameState state);
     void popUpWinner(bool youWin);
 

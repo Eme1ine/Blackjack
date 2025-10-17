@@ -13,9 +13,10 @@ private:
     /* data */
     Bank bank;
     Player player;
-    GameState state;
     DeckCards deck;
-    View view;
+
+public:
+    GameState state;
 
 public:
     explicit Game();
@@ -28,16 +29,16 @@ public:
     void Next_Step();
 
     void State_Init();
+    void State_DealingCards();
     void State_PlayerTurn(const char c = ' ');
     void State_BankTurn();
     bool State_Finish();
 
     void Display_Result();
 
-public slots:
-    void onEnterPressed();
-    void onLetterPressed(char value);
-    void onLetterPressedH();
-    void onLetterPressedS();
-    void onTurnFinished();
+    std::vector<std::shared_ptr<Card>> Get_Bank_Cards() const { return bank.Get_Cards(); };
+    std::vector<std::shared_ptr<Card>> Get_Player_Cards() const { return player.Get_Cards(); };
+
+signals:
+    void gameFinished(bool youWin);
 };

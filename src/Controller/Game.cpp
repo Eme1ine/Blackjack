@@ -2,7 +2,6 @@
 #include "Model/Person/Person.hpp"
 #include "Model/Person/Player.hpp"
 #include "Model/Person/Bank.hpp"
-#include "View/View.hpp"
 #include <iostream>
 #include <unistd.h>
 
@@ -11,17 +10,9 @@ using namespace std;
 Game::Game()
 {
     cout << "Game Creation" << endl;
-    view.show();
-    state = GameState::InitBegin;
-    view.updateState(state);
+    state = GameState::Init;
     Display_Game();
-
-    QObject::connect(&view, &View::enterPressed, this, onEnterPressed);
-    QObject::connect(&view, &View::letterPressed, this, onLetterPressed);
-    QObject::connect(&view, &View::turnFinished, this, onTurnFinished);
-    QObject::connect(view.buttonNext, &QPushButton::released, this, onEnterPressed);
-    QObject::connect(view.buttonHit, &QPushButton::released, this, onLetterPressedH);
-    QObject::connect(view.buttonStand, &QPushButton::released, this, onLetterPressedS);
+    Start_Game();
 }
 
 Game::~Game()
@@ -34,18 +25,21 @@ void Game::Start_Game()
     bool continue_game = true;
     switch (state)
     {
-    case InitBegin:
+    case Init:
         /*Attribute random card*/
         State_Init();
         Display_Game();
         break;
-    case PlayerTurn:
-        State_PlayerTurn();
-        break;
-    case PlayerTurnFinished:
+    case DealingCards:
+        /*Attribute random card*/
+        State_DealingCards();
         Display_Game();
         break;
-    case BankTurnBegin:
+    case PlayerTurn:
+        State_PlayerTurn();
+        Display_Game();
+        break;
+    case BankTurn:
         State_BankTurn();
         Display_Game();
         break;
@@ -71,32 +65,32 @@ void Game::Next_Step()
 {
     if (state != Finish and player.Get_Score() > 21)
     {
+        cout << "THE ENDD" << endl;
         state = Finish;
     }
     else
     {
         switch (state)
         {
-        case InitFinished:
+        case Init:
+            state = DealingCards;
+            break;
+        case DealingCards:
             state = PlayerTurn;
             break;
         case PlayerTurnFinished:
-            state = BankTurnBegin;
-            break;
-        case BankTurnBegin:
             state = BankTurn;
             break;
-        case BankTurnFinished:
+        case BankTurn:
             state = Finish;
             break;
         case Finish:
-            state = InitBegin;
+            state = Init;
             break;
         default:
             break;
         }
     }
-    view.updateState(state);
 }
 
 void Game::State_Init()
@@ -104,23 +98,21 @@ void Game::State_Init()
     state = Init;
     bank.EmptyCards();
     player.EmptyCards();
-
-    view.updateBank(bank);
-    view.updatePlayer(player);
+}
+void Game::State_DealingCards()
+{
+    state = DealingCards;
     bank.Add_Card(deck.Get_Random_Card());
 
     player.Add_Card(deck.Get_Random_Card());
     player.Add_Card(deck.Get_Random_Card());
-
-    view.updateBank(bank);
-    view.updatePlayer(player);
 }
+
 void Game::State_PlayerTurn(const char c)
 {
     if (c == 's')
     {
         state = PlayerTurnFinished;
-        view.updateState(state);
         Start_Game();
     }
     else
@@ -128,13 +120,10 @@ void Game::State_PlayerTurn(const char c)
         if (c == 'h')
         {
             player.Add_Card(deck.Get_Random_Card());
-            view.updatePlayer(player);
         }
         if (player.Get_Score() >= 21)
         {
-            state = PlayerTurnFinished;
-            view.updateState(state);
-            Start_Game();
+            state = Finish;
         }
         else
         {
@@ -152,7 +141,6 @@ void Game::State_BankTurn()
     {
         bank.Add_Card(deck.Get_Random_Card());
     }
-    view.updateBank(bank);
 }
 bool Game::State_Finish()
 {
@@ -194,49 +182,5 @@ void Game::Display_Result()
         cout << " YOU WIN CONGRATS ! " << endl;
         youWin = true;
     }
-    view.popUpWinner(youWin);
-}
-
-void Game::onEnterPressed()
-{
-    std::cout << "Enter pressed -> action triggered in GameController\n";
-    Start_Game();
-}
-
-void Game::onLetterPressedS()
-{
-    onLetterPressed('s');
-}
-
-void Game::onLetterPressedH()
-{
-    onLetterPressed('h');
-}
-void Game::onLetterPressed(char value)
-{
-    std::cout << "letter pressed -> " << value << endl;
-    if (state == PlayerTurn)
-    {
-        State_PlayerTurn(value);
-    }
-}
-void Game::onTurnFinished()
-{
-    std::cout << "TurnFinished" << endl;
-    static int init_finished_count = 0;
-    if (state == BankTurn || state == BankTurnBegin)
-    {
-        state = BankTurnFinished;
-        Start_Game();
-    }
-    else if (state == Init)
-    {
-        if (++init_finished_count == 2)
-        {
-
-            state = InitFinished;
-            Start_Game();
-            init_finished_count = 0;
-        }
-    }
+    emit gameFinished(youWin);
 }

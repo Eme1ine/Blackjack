@@ -19,6 +19,11 @@ using namespace std;
 
 void ServicesView::dealBankSequential(QHBoxLayout *layout, const QVector<QPixmap> &pix, int idx, View *window)
 {
+    if (pix.size() == 0)
+    {
+        emit window->turnFinished();
+        return;
+    }
     if (idx >= pix.size())
     {
         emit window->turnFinished();
@@ -52,7 +57,6 @@ QParallelAnimationGroup *ServicesView::addCardFromRight(QHBoxLayout *targetLayou
     clones.reserve(targetLayout->count());
     for (int i = 0; i < targetLayout->count(); ++i)
     {
-        cout << "On passe dans les children" << endl;
         QLabel *tm_card_label_ptr = dynamic_cast<QLabel *>(targetLayout->itemAt(i)->widget());
         tm_card_label_ptr->setVisible(false);
         QLabel *card_label_ptr = new QLabel(window);
@@ -131,10 +135,10 @@ QParallelAnimationGroup *ServicesView::addCardFromRight(QHBoxLayout *targetLayou
     return group;
 }
 
-void ServicesView::updatePerson(const Person &person, QHBoxLayout *layout_person, View *window)
+void ServicesView::updatePerson(vector<shared_ptr<Card>> cards, QHBoxLayout *layout_person, View *window)
 {
     QLayoutItem *item;
-    int size = person.Get_Cards().size();
+    int size = cards.size();
     if (size == 0)
     {
         while ((item = layout_person->takeAt(0)) != nullptr)
@@ -142,6 +146,7 @@ void ServicesView::updatePerson(const Person &person, QHBoxLayout *layout_person
             delete item->widget();
             delete item;
         }
+        emit window->turnFinished();
     }
     else
     {
@@ -151,7 +156,7 @@ void ServicesView::updatePerson(const Person &person, QHBoxLayout *layout_person
         toAdd.reserve(size - nb_element);
         for (int i = nb_element; i < size; ++i)
         {
-            auto card_ptr = person.Get_Cards().at(i);
+            auto card_ptr = cards.at(i);
             toAdd.push_back(renderSvg(card_ptr->Get_Name(), QSize(100, 200)));
         }
 

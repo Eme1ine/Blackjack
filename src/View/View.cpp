@@ -26,13 +26,11 @@ View::View(QWidget *parent)
 
     // ----- Section gauche (jeux) -----
     QWidget *gameSection = new QWidget(this);
-    gameSection->setFixedSize(500, 500);
-    bigLayout->addWidget(gameSection);
+    bigLayout->addWidget(gameSection, 5);
 
     // ----- Section droite (bouton) -----
     QWidget *boutonSection = new QWidget(this);
-    boutonSection->setFixedSize(200, 500);
-    bigLayout->addWidget(boutonSection);
+    bigLayout->addWidget(boutonSection, 2);
 
     // ----- Section droite remplissage -----
     QVBoxLayout *boutonLayout = new QVBoxLayout(boutonSection);
@@ -48,14 +46,12 @@ View::View(QWidget *parent)
     boutonLayout->addWidget(buttonNext);
 
     // ----- Section gauche remplissage -----
-    gameLayout = new QVBoxLayout(gameSection);
+    QVBoxLayout *gameLayout = new QVBoxLayout(gameSection);
     gameLayout->setContentsMargins(0, 0, 0, 0);
     gameLayout->setSpacing(0);
 
     // ----- Section du haut (banque) -----
     QWidget *bankSection = new QWidget(gameSection);
-    bankSection->setMinimumHeight(200);
-    bankSection->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     bank_cards = new QHBoxLayout(bankSection);
     bank_cards->setSpacing(8);
@@ -65,8 +61,6 @@ View::View(QWidget *parent)
 
     // ----- Section du bas (joueur) -----
     QWidget *playerSection = new QWidget(gameSection);
-    playerSection->setMinimumHeight(200);
-    playerSection->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     player_cards = new QHBoxLayout(playerSection);
     player_cards->setSpacing(8);
@@ -83,14 +77,14 @@ View::~View()
     cout << "View Destroy" << endl;
 }
 
-void View::updateBank(const Bank &bank)
+void View::updateBank(vector<shared_ptr<Card>> cards)
 {
-    services.updatePerson(bank, bank_cards, this);
+    services.updatePerson(cards, bank_cards, this);
 }
 
-void View::updatePlayer(const Player &player)
+void View::updatePlayer(vector<shared_ptr<Card>> cards)
 {
-    services.updatePerson(player, player_cards, this);
+    services.updatePerson(cards, player_cards, this);
 }
 
 void View::updateState(const GameState state)
@@ -113,11 +107,11 @@ void View::popUpWinner(bool youWin)
 {
     if (youWin)
     {
-        QMessageBox::information(this, "Blackjack", "🎉 YOU WIN!");
+        QMessageBox::about(this, "Blackjack", "🎉 YOU WIN!");
     }
     else
     {
-        QMessageBox::information(this, "Blackjack", "LOOOOSER!");
+        QMessageBox::about(this, "Blackjack", "LOOOOSER!");
     }
 }
 
