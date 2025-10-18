@@ -43,9 +43,5 @@ signals:
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
-    void paintEvent(QPaintEvent *) override
-    {
-        QPainter painter(this);
-        painter.drawPixmap(rect(), background); // scale to fill
-    }
+    void paintEvent(QPaintEvent *) override;
 };

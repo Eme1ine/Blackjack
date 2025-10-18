@@ -130,3 +130,9 @@ void View::keyPressEvent(QKeyEvent *event)
     else
         QWidget::keyPressEvent(event);
 }
+
+void View::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+    painter.drawPixmap(rect(), background); // scale to fill
+}

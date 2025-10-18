@@ -64,3 +64,8 @@ void Person::EmptyCards()
 {
     cards.clear();
 }
+
+std::vector<std::shared_ptr<Card>> Person::Get_Cards() const
+{
+    return cards;
+}

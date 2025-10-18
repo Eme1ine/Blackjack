@@ -184,3 +184,13 @@ void Game::Display_Result()
     }
     emit gameFinished(youWin);
 }
+
+std::vector<std::shared_ptr<Card>> Game::Get_Bank_Cards() const
+{
+    return bank.Get_Cards();
+}
+
+std::vector<std::shared_ptr<Card>> Game::Get_Player_Cards() const
+{
+    return player.Get_Cards();
+}

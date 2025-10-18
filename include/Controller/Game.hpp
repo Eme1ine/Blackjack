@@ -36,8 +36,8 @@ public:
 
     void Display_Result();
 
-    std::vector<std::shared_ptr<Card>> Get_Bank_Cards() const { return bank.Get_Cards(); };
-    std::vector<std::shared_ptr<Card>> Get_Player_Cards() const { return player.Get_Cards(); };
+    std::vector<std::shared_ptr<Card>> Get_Bank_Cards() const;
+    std::vector<std::shared_ptr<Card>> Get_Player_Cards() const;
 
 signals:
     void gameFinished(bool youWin);
