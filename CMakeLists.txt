@@ -46,16 +46,6 @@ target_link_libraries(MyQtApp PRIVATE my_lib)
 # (Optionnel) si tu as un fichier main.cpp dans src/, ajoute-le explicitement
 target_sources(MyQtApp PRIVATE "${SRC_ROOT}/main.cpp")
 
-# ---- GoogleTest
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/refs/heads/main.zip
-)
-# Empêche gtest d'ajouter ses propres tests internes
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
 # ---- Tests
 enable_testing()
 add_subdirectory(tests)
