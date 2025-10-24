@@ -95,13 +95,12 @@ void Game::Next_Step()
 
 void Game::State_Init()
 {
-    state = Init;
     bank.EmptyCards();
     player.EmptyCards();
 }
+
 void Game::State_DealingCards()
 {
-    state = DealingCards;
     bank.Add_Card(deck.Get_Random_Card());
 
     player.Add_Card(deck.Get_Random_Card());
@@ -113,7 +112,7 @@ void Game::State_PlayerTurn(const char c)
     if (c == 's')
     {
         state = PlayerTurnFinished;
-        Start_Game();
+        Next_Step();
     }
     else
     {

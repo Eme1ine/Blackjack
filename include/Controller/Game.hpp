@@ -20,6 +20,7 @@ public:
 
 public:
     explicit Game();
+    Game(DeckCards deck) : deck(deck) {};
     ~Game();
 
     void Display_Game() const;

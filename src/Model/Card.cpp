@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Card::Card() : color(Spade), number(One)
+Card::Card() : color(Spade), number(Two)
 {
     cout << "Creation Card" << endl;
 }

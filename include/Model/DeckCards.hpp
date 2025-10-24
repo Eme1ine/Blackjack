@@ -4,7 +4,7 @@
 
 class DeckCards
 {
-private:
+protected:
     /* data */
     std::vector<std::shared_ptr<Card>> deck_cards;
 
@@ -12,5 +12,5 @@ public:
     DeckCards(/* args */);
     ~DeckCards();
 
-    std::shared_ptr<Card> Get_Random_Card();
+    virtual std::shared_ptr<Card> Get_Random_Card();
 };
