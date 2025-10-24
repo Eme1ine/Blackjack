@@ -7,7 +7,7 @@ TEST(DeckCardsTest, InitTest)
 {
     DeckCards deck;
     std::vector<int> random_deck;
-    for (int i = 0; i < 1000; ++i)
+    for (int i = 0; i < 10000; ++i)
     {
         std::shared_ptr<Card> c = deck.Get_Random_Card();
         random_deck.push_back(c->Get_Value());
