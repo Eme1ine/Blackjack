@@ -6,6 +6,10 @@
 #include <unistd.h>
 
 using namespace std;
+Game::Game(DeckCards *deck) : deck(deck)
+{
+    state = GameState::Init;
+}
 
 Game::Game()
 {
@@ -63,33 +67,25 @@ void Game::Display_Game() const
 
 void Game::Next_Step()
 {
-    if (state != Finish and player.Get_Score() > 21)
+    switch (state)
     {
-        cout << "THE ENDD" << endl;
+    case Init:
+        state = DealingCards;
+        break;
+    case DealingCards:
+        state = PlayerTurn;
+        break;
+    case PlayerTurnFinished:
+        state = BankTurn;
+        break;
+    case BankTurn:
         state = Finish;
-    }
-    else
-    {
-        switch (state)
-        {
-        case Init:
-            state = DealingCards;
-            break;
-        case DealingCards:
-            state = PlayerTurn;
-            break;
-        case PlayerTurnFinished:
-            state = BankTurn;
-            break;
-        case BankTurn:
-            state = Finish;
-            break;
-        case Finish:
-            state = Init;
-            break;
-        default:
-            break;
-        }
+        break;
+    case Finish:
+        state = Init;
+        break;
+    default:
+        break;
     }
 }
 
@@ -101,10 +97,10 @@ void Game::State_Init()
 
 void Game::State_DealingCards()
 {
-    bank.Add_Card(deck.Get_Random_Card());
+    bank.Add_Card(deck->Get_Random_Card());
 
-    player.Add_Card(deck.Get_Random_Card());
-    player.Add_Card(deck.Get_Random_Card());
+    player.Add_Card(deck->Get_Random_Card());
+    player.Add_Card(deck->Get_Random_Card());
 }
 
 void Game::State_PlayerTurn(const char c)
@@ -118,7 +114,7 @@ void Game::State_PlayerTurn(const char c)
     {
         if (c == 'h')
         {
-            player.Add_Card(deck.Get_Random_Card());
+            player.Add_Card(deck->Get_Random_Card());
         }
         if (player.Get_Score() >= 21)
         {
@@ -138,7 +134,7 @@ void Game::State_BankTurn()
 {
     while (bank.Get_Score() < 17)
     {
-        bank.Add_Card(deck.Get_Random_Card());
+        bank.Add_Card(deck->Get_Random_Card());
     }
 }
 bool Game::State_Finish()

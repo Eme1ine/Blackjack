@@ -39,15 +39,16 @@ class DeckCards {
 	+DeckCards()
 	+~DeckCards()
 	+Get_Random_Card() : std::shared_ptr<Card>
-	-deck_cards : std::vector<std::shared_ptr<Card>>
+	#deck_cards : std::vector<std::shared_ptr<Card>>
 }
 
 
 class Game {
 	+Game()
+	+Game(DeckCards* deck)
 	+~Game()
 	-bank : Bank
-	-deck : DeckCards
+	-deck : DeckCards*
 	+state : GameState
 	-player : Player
 	+State_Finish() : bool
@@ -193,7 +194,7 @@ DeckCards o-- Card
 Game *-- Bank
 
 
-Game *-- DeckCards
+Game o-- DeckCards
 
 
 Game *-- GameState

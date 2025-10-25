@@ -3,28 +3,32 @@
 #include "Controller/Game.hpp"
 #include <vector>
 using namespace std;
+
+static int nb_to_generate = 1;
+
 class DeckCardTest : public DeckCards
 {
 public:
     shared_ptr<Card> Get_Random_Card() override
     {
-        return deck_cards[0];
+        return deck_cards[nb_to_generate - 1];
     }
 };
 class TestGame : public Game
 {
     Q_OBJECT
 public:
-    TestGame() : Game(DeckCardTest())
+    TestGame() : Game(new DeckCardTest())
     {
     }
 
 private slots:
     void testGameInit()
     {
-        QCOMPARE(state, GameState::Init); // Init fini
-        QCOMPARE(Get_Bank_Cards().size(), 0);
-        QCOMPARE(Get_Player_Cards().size(), 0);
+        Game game;
+        QCOMPARE(game.state, GameState::DealingCards); // Init fini
+        QCOMPARE(game.Get_Bank_Cards().size(), 0);
+        QCOMPARE(game.Get_Player_Cards().size(), 0);
     }
     void testStateInit()
     {
@@ -67,12 +71,130 @@ private slots:
 
     void testStateBankTurn()
     {
-        for (int i = 0; i < 1000; ++i)
+        for (int i = 1; i <= 13; ++i)
         {
             State_Init();
+            nb_to_generate = i;
             State_BankTurn();
             QVERIFY(Get_Score(Get_Bank_Cards()) >= 17);
         }
+    }
+
+    void testStateFinish()
+    {
+        State_Init();
+        QCOMPARE(State_Finish(), false);
+    }
+
+    void testDisplayResult()
+    {
+        // --------- Premier test
+        State_Init();
+        // Crée un spy sur le signal
+        QSignalSpy spy(&(*this), &Game::gameFinished);
+        Display_Result();
+
+        // Vérifie la valeur du signal
+        QList<QVariant> arguments = spy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), true);
+
+        // --------- Deuxieme test : score_player > 21
+        State_Init();
+        nb_to_generate = 8;
+        // Generation de 3 cartes pour le player de valeurs 8
+        for (int i = 0; i < 3; ++i)
+        {
+            State_PlayerTurn('h');
+        }
+        Display_Result();
+
+        // Vérifie la valeur du signal
+        arguments = spy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), false);
+
+        // --------- Troisieme test : bank_player > 21
+        State_Init();
+        nb_to_generate = 8;
+        State_BankTurn(); // Genere 3 cartes de valeurs 8
+        Display_Result();
+
+        // Vérifie la valeur du signal
+        arguments = spy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), true);
+
+        // --------- Quatrieme test : score_bank > score_player
+        State_Init();
+        nb_to_generate = 6;
+        State_BankTurn();      // Genere 3 cartes de valeurs 6
+        State_PlayerTurn('h'); // Genere 1 carte de valeur 6
+        Display_Result();
+
+        // Vérifie la valeur du signal
+        arguments = spy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), false);
+
+        // --------- Cinquieme test : score_bank < score_player
+        State_Init();
+        nb_to_generate = 6;
+        State_BankTurn(); // Genere 3 cartes de valeurs 6
+        nb_to_generate = 7;
+        for (int i = 0; i < 3; ++i) // Genere 3 cartes de valeurs 7
+        {
+            State_PlayerTurn('h');
+        }
+        Display_Result();
+
+        // Vérifie la valeur du signal
+        arguments = spy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), true);
+    }
+
+    void testNextStep()
+    {
+        State_Init();
+        state = GameState::Init;
+        Next_Step();
+        QCOMPARE(state, GameState::DealingCards);
+
+        Next_Step();
+        QCOMPARE(state, GameState::PlayerTurn);
+
+        Next_Step();
+        QCOMPARE(state, GameState::PlayerTurn);
+
+        state = GameState::PlayerTurnFinished;
+        Next_Step();
+        QCOMPARE(state, GameState::BankTurn);
+
+        Next_Step();
+        QCOMPARE(state, GameState::Finish);
+
+        Next_Step();
+        QCOMPARE(state, GameState::Init);
+    }
+
+    void testStartGame()
+    {
+        State_Init();
+        state = GameState::Init;
+        Start_Game();
+        QCOMPARE(state, GameState::DealingCards);
+
+        Start_Game();
+        QCOMPARE(state, GameState::PlayerTurn);
+
+        Start_Game();
+        QCOMPARE(state, GameState::PlayerTurn);
+
+        state = GameState::PlayerTurnFinished;
+        Start_Game();
+        QCOMPARE(state, GameState::BankTurn);
+
+        Start_Game();
+        QCOMPARE(state, GameState::Finish);
+
+        Start_Game();
+        QCOMPARE(state, GameState::Init);
     }
 
     int Get_Score(vector<shared_ptr<Card>> cards) const

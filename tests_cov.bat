@@ -12,5 +12,5 @@ rem Execute tes tests (obligatoire pour generer les *.gcda)
 ctest --test-dir build_cov --output-on-failure
 
 rem Genere le rapport de couverture :
-mkdir doc/coverage
+mkdir doc\coverage
 py -m gcovr -r . build_cov --filter "src/.*|include/.*" --html --html-details -o doc/coverage/index.html

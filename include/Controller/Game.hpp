@@ -13,14 +13,14 @@ private:
     /* data */
     Bank bank;
     Player player;
-    DeckCards deck;
+    DeckCards *deck;
 
 public:
     GameState state;
 
 public:
     explicit Game();
-    Game(DeckCards deck) : deck(deck) {};
+    Game(DeckCards *deck);
     ~Game();
 
     void Display_Game() const;
