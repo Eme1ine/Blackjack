@@ -16,8 +16,8 @@ Windows seulement
 ## Lance les tests et génère un rapport html de couverture
 > tests_cov.bat
 
-# Diagramme de classe : 
-![alt text](doc/image.png)
+# Diagramme de classe :
+<img src="doc/image.png" alt="Description" width="900" height="800">
 
 # TODO List
 * Ajouter le split
