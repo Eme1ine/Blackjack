@@ -2,14 +2,23 @@
 
 Windows seulement
 
-# Compiler et lancer l'execution
+# Scripts
 
+## Compile et lance l'execution
 > main.bat
 
-# Lancer l'execution
-> .\build\MyQtApp.exe
+## Efface les fichiers de compilations
+> clean.bat
+
+## Lance les tests
+> tests.bat
+
+## Lance les tests et génère un rapport html de couverture
+> tests_cov.bat
+
+# Diagramme de classe : 
+![alt text](doc/image.png)
 
 # TODO List
-
 * Ajouter le split
-* Test unitaires
+* 90% coverage
