@@ -23,6 +23,7 @@ public:
 
 private slots:
     void testGameInit();
+
     void testStateInit();
 
     void testStateDealingCards();

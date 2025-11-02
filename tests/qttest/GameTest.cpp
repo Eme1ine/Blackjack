@@ -205,3 +205,6 @@ int GameTest::Get_Score(vector<shared_ptr<Card>> cards) const
     }
     return sum;
 }
+
+QTEST_MAIN(GameTest)
+#include "GameTest.moc"

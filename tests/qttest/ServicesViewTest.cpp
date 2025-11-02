@@ -86,3 +86,6 @@ void ServicesViewTest::test_updatePerson_adds_cards_and_emits_after_animations()
     // Ici le layout initial contenait 1 widget, la taille finale devrait etre >= cards.size()
     QVERIFY(layout->count() >= static_cast<int>(cards.size()));
 }
+
+QTEST_MAIN(ServicesViewTest)
+#include "ServicesViewTest.moc"
