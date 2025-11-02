@@ -18,24 +18,25 @@ private:
 public:
     GameState state;
 
+protected:
+    void State_Init();
+    void State_DealingCards();
+    void State_BankTurn();
+    bool State_Finish();
+
+    void Display_Game() const;
+
+    void Next_Step();
+
+    void Display_Result();
+
 public:
     explicit Game();
     Game(DeckCards *deck);
     ~Game();
 
-    void Display_Game() const;
-
     void Start_Game();
-
-    void Next_Step();
-
-    void State_Init();
-    void State_DealingCards();
     void State_PlayerTurn(const char c = ' ');
-    void State_BankTurn();
-    bool State_Finish();
-
-    void Display_Result();
 
     std::vector<std::shared_ptr<Card>> Get_Bank_Cards() const;
     std::vector<std::shared_ptr<Card>> Get_Player_Cards() const;

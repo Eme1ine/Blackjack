@@ -14,6 +14,7 @@ Game::Game(DeckCards *deck) : deck(deck)
 Game::Game()
 {
     cout << "Game Creation" << endl;
+    deck = new DeckCards();
     state = GameState::Init;
     Display_Game();
     Start_Game();
